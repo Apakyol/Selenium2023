@@ -1,7 +1,10 @@
 package com.cydeo;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class SeleniumTest {
@@ -10,27 +13,24 @@ public class SeleniumTest {
         WebDriver driver=new ChromeDriver();
 
         driver.manage().window().maximize();
-        driver.navigate().to("https://practice.cydeo.com");
+        //driver navigate to google.com
+        driver.navigate().to("https:www.google.com");
 
-        String expectedURL="https://practice.cydeo.com";
-        String actualURL=driver.getCurrentUrl();
-        System.out.println(actualURL);
-        if (actualURL.equals(expectedURL)){
-            System.out.println("URL verification PASSED!");
+
+        //search for cydeo
+        WebElement searchBox=driver.findElement(By.xpath("//input[@name='q']"));
+        searchBox.sendKeys("Apple Türkiye"+ Keys.ENTER);
+
+        //verify Apple Türkiye lintText is appeared in the results
+
+        WebElement cydeoText=driver.findElement(By.xpath("//h3[.='Apple (Türkiye)']"));
+        //close the browser
+        if (cydeoText.getText().equals("Apple (Türkiye)")){
+            System.out.println("Apple (Türkiye) is appeared");
         }else {
-            System.out.println("URL verification FAILED!");
+            System.out.println("Apple Türkiye did not appeared");
         }
+        driver.quit();
 
-     // 4. verify title:
-        //Expected : Practice
-        String expectedTitle="Practice";
-        String actualTitle=driver.getTitle();
-
-        if (actualTitle.equals(expectedTitle)){
-            System.out.println("Title verification PASSED!");
-        }else {
-            System.out.println("Title verification FAILED!");
-        }
-        driver.close();
     }
 }
